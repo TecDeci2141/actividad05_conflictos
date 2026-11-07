@@ -1,0 +1,355 @@
+State 19 conflicts: 2 shift/reduce
+State 20 conflicts: 2 shift/reduce
+State 21 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: programa $end
+
+    1 programa: %empty
+    2         | programa sentencia
+
+    3 sentencia: "identificador" "=" expr ";"
+    4          | "if" "(" expr ")" sentencia
+    5          | "if" "(" expr ")" sentencia "else" sentencia
+
+    6 expr: "identificador"
+    7     | "numero"
+    8     | expr "+" expr
+    9     | expr "*" expr
+   10     | "(" expr ")"
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    "identificador" (258) 3 6
+    "numero" (259) 7
+    "if" (260) 4 5
+    "else" (261) 5
+    "=" (262) 3
+    "+" (263) 8
+    "*" (264) 9
+    "(" (265) 4 5 10
+    ")" (266) 4 5 10
+    ";" (267) 3
+
+
+Nonterminals, with rules where they appear
+
+    $accept (13)
+        on left: 0
+    programa (14)
+        on left: 1 2
+        on right: 0 2
+    sentencia (15)
+        on left: 3 4 5
+        on right: 2 4 5
+    expr (16)
+        on left: 6 7 8 9 10
+        on right: 3 4 5 8 9 10
+
+
+State 0
+
+    0 $accept: . programa $end
+
+    $default  reduce using rule 1 (programa)
+
+    programa  go to state 1
+
+
+State 1
+
+    0 $accept: programa . $end
+    2 programa: programa . sentencia
+
+    $end             shift, and go to state 2
+    "identificador"  shift, and go to state 3
+    "if"             shift, and go to state 4
+
+    sentencia  go to state 5
+
+
+State 2
+
+    0 $accept: programa $end .
+
+    $default  accept
+
+
+State 3
+
+    3 sentencia: "identificador" . "=" expr ";"
+
+    "="  shift, and go to state 6
+
+
+State 4
+
+    4 sentencia: "if" . "(" expr ")" sentencia
+    5          | "if" . "(" expr ")" sentencia "else" sentencia
+
+    "("  shift, and go to state 7
+
+
+State 5
+
+    2 programa: programa sentencia .
+
+    $default  reduce using rule 2 (programa)
+
+
+State 6
+
+    3 sentencia: "identificador" "=" . expr ";"
+
+    "identificador"  shift, and go to state 8
+    "numero"         shift, and go to state 9
+    "("              shift, and go to state 10
+
+    expr  go to state 11
+
+
+State 7
+
+    4 sentencia: "if" "(" . expr ")" sentencia
+    5          | "if" "(" . expr ")" sentencia "else" sentencia
+
+    "identificador"  shift, and go to state 8
+    "numero"         shift, and go to state 9
+    "("              shift, and go to state 10
+
+    expr  go to state 12
+
+
+State 8
+
+    6 expr: "identificador" .
+
+    $default  reduce using rule 6 (expr)
+
+
+State 9
+
+    7 expr: "numero" .
+
+    $default  reduce using rule 7 (expr)
+
+
+State 10
+
+   10 expr: "(" . expr ")"
+
+    "identificador"  shift, and go to state 8
+    "numero"         shift, and go to state 9
+    "("              shift, and go to state 10
+
+    expr  go to state 13
+
+
+State 11
+
+    3 sentencia: "identificador" "=" expr . ";"
+    8 expr: expr . "+" expr
+    9     | expr . "*" expr
+
+    "+"  shift, and go to state 14
+    "*"  shift, and go to state 15
+    ";"  shift, and go to state 16
+
+
+State 12
+
+    4 sentencia: "if" "(" expr . ")" sentencia
+    5          | "if" "(" expr . ")" sentencia "else" sentencia
+    8 expr: expr . "+" expr
+    9     | expr . "*" expr
+
+    "+"  shift, and go to state 14
+    "*"  shift, and go to state 15
+    ")"  shift, and go to state 17
+
+
+State 13
+
+    8 expr: expr . "+" expr
+    9     | expr . "*" expr
+   10     | "(" expr . ")"
+
+    "+"  shift, and go to state 14
+    "*"  shift, and go to state 15
+    ")"  shift, and go to state 18
+
+
+State 14
+
+    8 expr: expr "+" . expr
+
+    "identificador"  shift, and go to state 8
+    "numero"         shift, and go to state 9
+    "("              shift, and go to state 10
+
+    expr  go to state 19
+
+
+State 15
+
+    9 expr: expr "*" . expr
+
+    "identificador"  shift, and go to state 8
+    "numero"         shift, and go to state 9
+    "("              shift, and go to state 10
+
+    expr  go to state 20
+
+
+State 16
+
+    3 sentencia: "identificador" "=" expr ";" .
+
+    $default  reduce using rule 3 (sentencia)
+
+
+State 17
+
+    4 sentencia: "if" "(" expr ")" . sentencia
+    5          | "if" "(" expr ")" . sentencia "else" sentencia
+
+    "identificador"  shift, and go to state 3
+    "if"             shift, and go to state 4
+
+    sentencia  go to state 21
+
+
+State 18
+
+   10 expr: "(" expr ")" .
+
+    $default  reduce using rule 10 (expr)
+
+
+State 19
+
+    8 expr: expr . "+" expr
+    8     | expr "+" expr .
+    9     | expr . "*" expr
+
+    "+"  shift, and go to state 14
+    "*"  shift, and go to state 15
+
+    "+"       [reduce using rule 8 (expr)]
+    "*"       [reduce using rule 8 (expr)]
+    $default  reduce using rule 8 (expr)
+
+    shift/reduce conflict on token "+":
+        8 expr: expr "+" expr .
+        8 expr: expr . "+" expr
+      Example: expr "+" expr . "+" expr
+      Shift derivation
+        expr
+        `-> 8: expr "+" expr
+                        `-> 8: expr . "+" expr
+      Reduce derivation
+        expr
+        `-> 8: expr                   "+" expr
+               `-> 8: expr "+" expr .
+
+    shift/reduce conflict on token "*":
+        8 expr: expr "+" expr .
+        9 expr: expr . "*" expr
+      Example: expr "+" expr . "*" expr
+      Shift derivation
+        expr
+        `-> 8: expr "+" expr
+                        `-> 9: expr . "*" expr
+      Reduce derivation
+        expr
+        `-> 9: expr                   "*" expr
+               `-> 8: expr "+" expr .
+
+
+
+State 20
+
+    8 expr: expr . "+" expr
+    9     | expr . "*" expr
+    9     | expr "*" expr .
+
+    "+"  shift, and go to state 14
+    "*"  shift, and go to state 15
+
+    "+"       [reduce using rule 9 (expr)]
+    "*"       [reduce using rule 9 (expr)]
+    $default  reduce using rule 9 (expr)
+
+    shift/reduce conflict on token "+":
+        9 expr: expr "*" expr .
+        8 expr: expr . "+" expr
+      Example: expr "*" expr . "+" expr
+      Shift derivation
+        expr
+        `-> 9: expr "*" expr
+                        `-> 8: expr . "+" expr
+      Reduce derivation
+        expr
+        `-> 8: expr                   "+" expr
+               `-> 9: expr "*" expr .
+
+    shift/reduce conflict on token "*":
+        9 expr: expr "*" expr .
+        9 expr: expr . "*" expr
+      Example: expr "*" expr . "*" expr
+      Shift derivation
+        expr
+        `-> 9: expr "*" expr
+                        `-> 9: expr . "*" expr
+      Reduce derivation
+        expr
+        `-> 9: expr                   "*" expr
+               `-> 9: expr "*" expr .
+
+
+
+State 21
+
+    4 sentencia: "if" "(" expr ")" sentencia .
+    5          | "if" "(" expr ")" sentencia . "else" sentencia
+
+    "else"  shift, and go to state 22
+
+    "else"    [reduce using rule 4 (sentencia)]
+    $default  reduce using rule 4 (sentencia)
+
+    shift/reduce conflict on token "else":
+        4 sentencia: "if" "(" expr ")" sentencia .
+        5 sentencia: "if" "(" expr ")" sentencia . "else" sentencia
+      Example: "if" "(" expr ")" "if" "(" expr ")" sentencia . "else" sentencia
+      Shift derivation
+        sentencia
+        `-> 4: "if" "(" expr ")" sentencia
+                                 `-> 5: "if" "(" expr ")" sentencia . "else" sentencia
+      Reduce derivation
+        sentencia
+        `-> 5: "if" "(" expr ")" sentencia                            "else" sentencia
+                                 `-> 4: "if" "(" expr ")" sentencia .
+
+
+
+State 22
+
+    5 sentencia: "if" "(" expr ")" sentencia "else" . sentencia
+
+    "identificador"  shift, and go to state 3
+    "if"             shift, and go to state 4
+
+    sentencia  go to state 23
+
+
+State 23
+
+    5 sentencia: "if" "(" expr ")" sentencia "else" sentencia .
+
+    $default  reduce using rule 5 (sentencia)

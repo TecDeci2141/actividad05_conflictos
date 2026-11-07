@@ -1,0 +1,6 @@
+OK  pruebas/01_precedencia.txt -> 0
+OK  pruebas/02_parentesis.txt -> 0
+OK  pruebas/03_else_cercano.txt -> 0
+OK  pruebas/04_else_doble.txt -> 0
+OK  pruebas/05_operador_invalido.txt -> 1
+OK  pruebas/06_else_sin_if.txt -> 1

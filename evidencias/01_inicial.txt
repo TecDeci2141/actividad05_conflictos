@@ -1,0 +1,51 @@
+parser.y: warning: 5 shift/reduce conflicts [-Wconflicts-sr]
+parser.y: warning: shift/reduce conflict on token "+" [-Wcounterexamples]
+  Example: expr "+" expr . "+" expr
+  Shift derivation
+    expr
+    `-> 8: expr "+" expr
+                    `-> 8: expr . "+" expr
+  Reduce derivation
+    expr
+    `-> 8: expr                   "+" expr
+           `-> 8: expr "+" expr .
+parser.y: warning: shift/reduce conflict on token "*" [-Wcounterexamples]
+  Example: expr "+" expr . "*" expr
+  Shift derivation
+    expr
+    `-> 8: expr "+" expr
+                    `-> 9: expr . "*" expr
+  Reduce derivation
+    expr
+    `-> 9: expr                   "*" expr
+           `-> 8: expr "+" expr .
+parser.y: warning: shift/reduce conflict on token "+" [-Wcounterexamples]
+  Example: expr "*" expr . "+" expr
+  Shift derivation
+    expr
+    `-> 9: expr "*" expr
+                    `-> 8: expr . "+" expr
+  Reduce derivation
+    expr
+    `-> 8: expr                   "+" expr
+           `-> 9: expr "*" expr .
+parser.y: warning: shift/reduce conflict on token "*" [-Wcounterexamples]
+  Example: expr "*" expr . "*" expr
+  Shift derivation
+    expr
+    `-> 9: expr "*" expr
+                    `-> 9: expr . "*" expr
+  Reduce derivation
+    expr
+    `-> 9: expr                   "*" expr
+           `-> 9: expr "*" expr .
+parser.y: warning: shift/reduce conflict on token "else" [-Wcounterexamples]
+  Example: "if" "(" expr ")" "if" "(" expr ")" sentencia . "else" sentencia
+  Shift derivation
+    sentencia
+    `-> 4: "if" "(" expr ")" sentencia
+                             `-> 5: "if" "(" expr ")" sentencia . "else" sentencia
+  Reduce derivation
+    sentencia
+    `-> 5: "if" "(" expr ")" sentencia                            "else" sentencia
+                             `-> 4: "if" "(" expr ")" sentencia .

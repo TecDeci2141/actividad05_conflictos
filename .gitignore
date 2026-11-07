@@ -1,0 +1,6 @@
+parser.tab.c
+parser.tab.h
+lex.yy.c
+parser
+parser.exe
+*.o
